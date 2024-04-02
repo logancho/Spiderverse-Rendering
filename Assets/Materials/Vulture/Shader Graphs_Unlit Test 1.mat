@@ -39,6 +39,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 66c991e537b001a4aac3ed751e22f925, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_0fe5a9f1ad0447d598d40ef72e97016a_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: f28c5731c2ffba54681d44e73682aa6c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -57,17 +61,22 @@ Material:
     - MAIN_LIGHT_CALCULATE_SHADOWS: 1
     - _ADDITIONAL_LIGHTS: 1
     - _BOOLEAN: 0
+    - _Blend: 4
     - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
     - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SHADOWS_SOFT: 1
     - _SHADOWS_SOFT_HIGH: 1
+    - _Tile: 0.6
     m_Colors:
     - _Highlight: {r: 0.86274517, g: 0.81568635, b: 0.6862745, a: 0}
     - _Midtone: {r: 0.74509805, g: 0.6039216, b: 0.41960788, a: 0}
     - _Shadow: {r: 0.4901961, g: 0.32156864, b: 0.20000002, a: 0}
     - _Smoothness: {r: 0.1, g: 0, b: 0, a: 0}
+    - _TextureRamp1: {r: 0, g: 0.1, b: 0.2, a: 0}
+    - _TextureRamp2: {r: 0.3, g: 0.4, b: 0.5, a: 0}
+    - _TextureRamp3: {r: 0, g: 0, b: 0, a: 0}
     - _Thresholds: {r: 0.1, g: 0.56, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1496085175185482773

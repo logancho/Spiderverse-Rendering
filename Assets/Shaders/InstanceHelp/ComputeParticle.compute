@@ -1,0 +1,238 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel PaintMain
+//#include "UnityCG.cginc"
+
+float3x3 NormalRotationMatrix(float3 v1, float3 v2) //-- v1 = up vector and v2 the normal that i want for my vertices
+{
+    float3 axis = cross(v1, v2);
+ 
+    float cosA = dot(v1, v2);
+    float k = 1.0f / (1.0f + cosA);
+ 
+    float3x3 result =
+                    float3x3(
+                        (axis.x * axis.x * k) + cosA,
+                        (axis.y * axis.x * k) - axis.z,
+                        (axis.z * axis.x * k) + axis.y,
+                        (axis.x * axis.y * k) + axis.z,
+                        (axis.y * axis.y * k) + cosA,
+                        (axis.z * axis.y * k) - axis.x,
+                        (axis.x * axis.z * k) - axis.y,
+                        (axis.y * axis.z * k) + axis.x,
+                        (axis.z * axis.z * k) + cosA
+                        );
+ 
+    return result;
+}
+
+float4x4 Rot3ToMat4(float3x3 rot)
+{
+    return float4x4(
+                rot[0][0],
+                rot[0][1],
+                rot[0][2],
+                0,
+                rot[1][0],
+                rot[1][1],
+                rot[1][2],
+                0,
+                rot[2][0],
+                rot[2][1],
+                rot[2][2],
+                0,
+                0,
+                0,
+                0,
+                1
+    );
+}
+
+struct MeshProperties
+{
+    float4x4 mat;
+    float2 UV; //UV
+    float4 color;
+};
+
+RWStructuredBuffer<MeshProperties> _Properties;
+//float3 _PusherPosition;
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+Texture2D<float4> _PaintBuffer; //read only heightmap ! (paintBuffer)
+Texture2D<float4> _NormalsBuffer; //read only viewNormals map
+Texture2D<float4> _DepthBuffer;
+Texture2D<float4> _ColorBuffer;
+RWTexture2D<float4> _Result;
+float4x4 _invViewMat;
+
+static const int _directions[8] = { -1, 0, 1, 0, 0, 1, 0, -1 };
+
+[numthreads(64,1,1)]
+void PaintMain (uint3 id : SV_DispatchThreadID)
+{
+    float2 UV = _Properties[id.x].UV;
+    UV.x *= 1280;
+    UV.y *= 720;
+
+    [unroll] for (int i = 0; i < 14; i++)
+    {
+        float v_cur = _PaintBuffer[UV.xy];
+        float2 dir_to_go = float2(0, 0);
+        for (int j = 0; j < 4; j++)
+        {
+            float2 disp = float2(_directions[j * 2], _directions[j * 2 + 1]);
+            float2 neighbor = disp + UV;
+            neighbor.x = max(0, neighbor.x);
+            neighbor.x = min(1280, neighbor.x);
+            neighbor.y = max(0, neighbor.y);
+            neighbor.y = min(720, neighbor.y);
+            disp = neighbor - UV;
+            
+            float v_n = _PaintBuffer[neighbor.xy];
+            
+            if (v_n > v_cur)
+            {
+                dir_to_go = disp;
+            }
+        }
+        UV += dir_to_go;
+    }
+    
+    
+    //float4x4 mat = _Properties[id.x].mat;
+    
+    
+    float4 height = _PaintBuffer[UV.xy];
+    
+    //if (height.x != 0)
+    //{
+    //    _Result[UV.xy] = float4(1, 1, 1, 1);
+    //    mat[0][3] = UV.x;
+    //    mat[1][3] = UV.y;
+    //}
+    //else
+    //{
+    //    mat[0][3] = -100;
+    //    mat[1][3] = -100;
+    //}
+    
+    //
+    //
+    //
+    
+    float4 normal = _NormalsBuffer[UV.xy];
+    normal = normalize(normal);
+    float3 up = float3(0, 0, 1);
+    float3x3 RM = NormalRotationMatrix(up.xyz, normal.xyz);
+    
+    float4x4 newMat = Rot3ToMat4(RM);
+    
+    float sceneZ = 0;
+    //sceneZ = LinearEyeDepth(_DepthTexture[UV.xy].r);
+    
+    sceneZ = _DepthBuffer[UV.xy].r;
+    
+    if (height.x != 0 && sceneZ != 0)
+    {
+        _Result[UV.xy] = float4(1, 1, 1, 1);
+        newMat[0][3] = UV.x;
+        newMat[1][3] = UV.y;
+    }
+    else
+    {
+        newMat[0][3] = -100;
+        newMat[1][3] = -100;
+    }
+    
+    
+    //reconstruct the world space position!!!!!
+    //via depth texture and more ...
+    
+    
+    //float3 worldPos = viewPlane * sceneZ + _WorldSpaceCameraPos;
+    //worldPos = mul(unity_CameraToWorld, float4(worldPos, 1.0));
+    
+    
+    // In a transform matrix, the position (translation) vector is the last column.
+    //float3 position = float3(mat[0][3], mat[1][3], mat[2][3]);
+
+    _Properties[id.x].mat = newMat;
+    _Properties[id.x].color = _ColorBuffer[UV.xy];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //_Result[]
+    //float4x4 mat = _Properties[id.x].mat;
+    //// In a transform matrix, the position (translation) vector is the last column.
+    //float3 position = float3(mat[0][3], mat[1][3], mat[2][3]);
+    
+    
+    //most important are x, and y
+    
+    //Consider x and y as UV coordinates!
+    
+    //UV = (x, y)
+    
+    //Read _PaintBuffer to get slope at (x, y)
+    //use just the 4 cardinal directions- that should be enough.
+    //Move in the direction of greatest change
+    
+    /////////////// PHYSICS SIM (probably like 5 passes) /////////////////////
+    //float dist = distance(position, _PusherPosition);
+    
+    //// Scale and reverse distance so that we get a value which fades as it gets further away.
+    //// Max distance is 5.0.
+    //dist = 20.0 - clamp(dist, 0.0, 20.0);
+
+    //// Get the vector from the pusher to the position, and scale it.
+    //float3 push = normalize(position - _PusherPosition) * dist;
+    ////push = float3(0.5, 0.5, 0.5);
+    //// Create a new translation matrix which represents a move in a direction.
+    //float4x4 translation = float4x4(
+    //    1, 0, 0, push.x,
+    //    0, 1, 0, push.y,
+    //    0, 0, 1, push.z,
+    //    0, 0, 0, 1
+    //);
+    
+    /////////////// PHYSICS SIM (probably like 5 passes) /////////////////////
+
+    // Apply translation to existing matrix, which will be read in the shader.
+    //_Properties[id.x].mat = mul(translation, mat);
+    
+    // Apply physics sim/gravity sim on particle!
+    //_Properties[id.x].mat = mul(translation, mat);
+    //if texture at new point is not white ... change this position to off screen (e.g. -10, -10, 0)
+    //or ... if the seen texture (which will be a black and white bit map for identifying which pixels have already been selected ...

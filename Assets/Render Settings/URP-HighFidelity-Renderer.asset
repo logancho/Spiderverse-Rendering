@@ -1,5 +1,114 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8672738956168930689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c7f7a75d40ffa4e9c4bc02f4a22a0c, type: 3}
+  m_Name: ClearFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  settings:
+    texture: {fileID: 8400000, guid: 6921f911b3ba2f94eb7902e9e1899dc2, type: 2}
+    Event: 0
+    bg_color: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &-6339790652264900394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c7f7a75d40ffa4e9c4bc02f4a22a0c, type: 3}
+  m_Name: ClearFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    texture: {fileID: 8400000, guid: f68433390152ff846b673e908a66de3f, type: 2}
+    Event: 250
+    bg_color: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &-4904462967884158843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4f576d06271f44cbb7208f1b8bf500, type: 3}
+  m_Name: Initialize Paint Buffer
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: Object ID Feature
+    Event: 300
+    TargetTexture: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 4294967295
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: d001c0d72d69e9f449f9c4d361f36a02, type: 2}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &-3035681141161628106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
+  m_Name: Step PaintBuffer 1
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 300
+    textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
+    material: {fileID: 2100000, guid: 43e7bbf1fd6e301489f22cf339f3ade7, type: 2}
+--- !u!114 &-2287089584982020688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 708549d1e8b33c4469fea36541a55c9d, type: 3}
+  m_Name: NormalFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  normalsLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  NormalsTexture: {fileID: 8400000, guid: f68433390152ff846b673e908a66de3f, type: 2}
+  _NormalsEvent: 500
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,15 +121,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 1
     Downsample: 0
     AfterOpaque: 0
     Source: 0
     NormalSamples: 2
-    Intensity: 0.5
-    DirectLightingStrength: 0.632
+    Intensity: 2.21
+    DirectLightingStrength: 0.46
     Radius: 0.25
     Samples: 0
     BlurQuality: 0
@@ -53,7 +162,15 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
-  m_RendererFeatureMap: adc0de57c6d2eee5
+  - {fileID: -8672738956168930689}
+  - {fileID: -6339790652264900394}
+  - {fileID: -4904462967884158843}
+  - {fileID: -3035681141161628106}
+  - {fileID: 4284662299580981401}
+  - {fileID: -2287089584982020688}
+  - {fileID: 3247224869803667882}
+  - {fileID: 1864896552536453596}
+  m_RendererFeatureMap: adc0de57c6d2eee57fdadb97de3da487d69868cdfd8904a885e83469ead8efbb366eb5f91518dfd59960080da92d763bb0ada6d523a042e0aa317686d075102ddc31c9ac8871e119
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -96,3 +213,56 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &1864896552536453596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2280ea69c19227f4d8aa99636fbb12d6, type: 3}
+  m_Name: ColorBufferFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 600
+    textureToCopyTo: {fileID: 8400000, guid: d259133bfe5a88c488173e75424a6332, type: 2}
+--- !u!114 &3247224869803667882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
+  m_Name: FullScreenFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    textureToModify: {fileID: 8400000, guid: 4a12575791f9dd4408fcaf184d18d6b1, type: 2}
+    material: {fileID: 2100000, guid: de27917f5a39d5b4f8f592c58a50ebed, type: 2}
+--- !u!114 &4284662299580981401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b6fe2114208fe3489d22e27a8c5bf08, type: 3}
+  m_Name: Blur Paint Buffer 1
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
+    material: {fileID: 2100000, guid: 3d1ef620e6aa5644195ebec496d71905, type: 2}
+    strength:
+      m_OverrideState: 1
+      m_Value: 2
