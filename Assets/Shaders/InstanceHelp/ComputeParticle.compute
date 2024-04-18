@@ -124,6 +124,7 @@ void PaintMain (uint3 id : SV_DispatchThreadID)
     float4 normal = _NormalsBuffer[UV.xy];
     normal = normalize(normal);
     float3 up = float3(0, 0, 1);
+    normal.z *= -1;
     float3x3 RM = NormalRotationMatrix(up.xyz, normal.xyz);
     
     float4x4 newMat = Rot3ToMat4(RM);
