@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GaussianBlur_Mat
-  m_Shader: {fileID: 4800000, guid: 6b6120bd1c07a8e46b42a5669dd12480, type: 3}
+  m_Name: test_given_mat
+  m_Shader: {fileID: 4800000, guid: 11b016fbcba782b44bfae102fb633aa2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,12 +24,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: be13cfd1f2ca22e409d7c4b1b0e28296, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints:
-    - _GridSize: 19
-    m_Floats:
-    - _Spread: 6
+    m_Ints: []
+    m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []

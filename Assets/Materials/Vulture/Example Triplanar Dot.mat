@@ -8,26 +8,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Example Triplanar Dot
-  m_Shader: {fileID: -6465566751694194690, guid: 8065cbd8283db744b95f382ecd466234,
+  m_Shader: {fileID: -6465566751694194690, guid: 9258a28bcb745c14fbabce1007afd609,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - ADDITIONAL_LIGHT_CALCULATE_SHADOWS
-  - MAIN_LIGHT_CALCULATE_SHADOWS
-  - _ADDITIONAL_LIGHTS
-  - _MAIN_LIGHT_SHADOWS_CASCADE
-  - _SHADOWS_SOFT_HIGH
-  m_InvalidKeywords:
-  - _MAIN_LIGHT_CALCULATE_SHADOWS
-  - _SHADOWS_SOFT
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _Tile
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -40,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: 390b1706e059a5148bbc43577240d9bf, type: 3}
+        m_Texture: {fileID: 2800000, guid: 35ad9f056496cc146b8878be5e492826, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_0fe5a9f1ad0447d598d40ef72e97016a_Out_0_Texture2D:
@@ -65,18 +58,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - ADDITIONAL_LIGHT_CALCULATE_SHADOWS: 1
-    - MAIN_LIGHT_CALCULATE_SHADOWS: 1
-    - _ADDITIONAL_LIGHTS: 1
+    - ADDITIONAL_LIGHT_CALCULATE_SHADOWS: 0
+    - MAIN_LIGHT_CALCULATE_SHADOWS: 0
+    - _ADDITIONAL_LIGHTS: 0
     - _BOOLEAN: 0
-    - _Blend: 41
+    - _Blend: 40
     - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
-    - _MAIN_LIGHT_SHADOWS_CASCADE: 1
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _R: 9.5
+    - _Radius: 4.09
     - _SHADOWS_SOFT: 1
-    - _SHADOWS_SOFT_HIGH: 1
-    - _Tile: 1
+    - _SHADOWS_SOFT_HIGH: 0
+    - _Tile: 1.8
     m_Colors:
     - _Highlight: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 0}
     - _Midtone: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 0}

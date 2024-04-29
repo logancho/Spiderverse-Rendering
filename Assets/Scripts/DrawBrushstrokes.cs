@@ -14,6 +14,7 @@ public class DrawBrushstrokes : MonoBehaviour
     public RenderTexture depthBuffer;
     public RenderTexture colorBuffer;
     public RenderTexture outputBufferTest;
+    public RenderTexture seenBuffer;
     public ComputeShader compute;
     public Camera mainCamera;
     //public Transform pusher;
@@ -75,9 +76,9 @@ public class DrawBrushstrokes : MonoBehaviour
         MeshProperties[] properties = new MeshProperties[population];
         Debug.Log(population);
 
-        for (int r = 0; r < paintBuffer.height / 10; r++)
+        for (int r = 0; r < paintBuffer.height / 10.0f; r++)
         {
-            for (int c = 0; c < paintBuffer.width / 10; c++)
+            for (int c = 0; c < paintBuffer.width / 10.0f; c++)
             {
                 int idx = (int)(r * (paintBuffer.width / 10.0f) + c);
                 //Debug.Log(idx);
@@ -130,10 +131,19 @@ public class DrawBrushstrokes : MonoBehaviour
         compute.SetTexture(kernel, "_DepthBuffer", depthBuffer);
         compute.SetTexture(kernel, "_ColorBuffer", colorBuffer);
         compute.SetTexture(kernel, "_Result", outputBufferTest);
+        compute.SetTexture(kernel, "_SeenBuffer", seenBuffer);
         //compute.SetTextureFromGlobal(kernel, "_CameraDepthAttachment", "_CameraDepthAttachment");
         //compute.SetTexture(kernel, "_DepthTexture", Shader.GetGlobalTexture("_CameraDepthAttachment"));
 
-        compute.SetMatrix("_invViewMat", mainCamera.cameraToWorldMatrix);
+        //if (Shader.GetGlobalTexture("_CameraDepthAttachment"))
+        //{
+        //    Debug.Log("hello\n");
+        //    compute.SetTextureFromGlobal(kernel, "_DepthBuffer", "_CameraDepthAttachment");
+        //}
+
+        compute.SetMatrix("_invViewMat", mainCamera.cameraToWorldMatrix); //game camera
+        //Debug.Log(mainCamera.cameraToWorldMatrix);
+        //_CameraDepthAttachment fs     1920x1080 Tex2D         None D32_SFloat_S8_UInt   _CameraDepthAttachment_1920x1080_Depth_MSAA8x
 
         //Camera main;
         //main.cameraToWorldMatrix

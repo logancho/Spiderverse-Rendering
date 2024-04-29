@@ -12,11 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c7f7a75d40ffa4e9c4bc02f4a22a0c, type: 3}
   m_Name: ClearFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
-    texture: {fileID: 8400000, guid: 6921f911b3ba2f94eb7902e9e1899dc2, type: 2}
+    texture: {fileID: 8400000, guid: a48783a2b0d92a74b884405898d55d49, type: 2}
     Event: 0
     bg_color: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &-7367551405630089070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
+  m_Name: Step 2
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  settings:
+    renderPassEvent: 300
+    textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
+    material: {fileID: 2100000, guid: 26d49391a1602684bab1a20413781b79, type: 2}
 --- !u!114 &-6339790652264900394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
   m_Name: Step PaintBuffer 1
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
@@ -167,10 +184,11 @@ MonoBehaviour:
   - {fileID: -4904462967884158843}
   - {fileID: -3035681141161628106}
   - {fileID: 4284662299580981401}
+  - {fileID: -7367551405630089070}
   - {fileID: -2287089584982020688}
   - {fileID: 3247224869803667882}
   - {fileID: 1864896552536453596}
-  m_RendererFeatureMap: adc0de57c6d2eee57fdadb97de3da487d69868cdfd8904a885e83469ead8efbb366eb5f91518dfd59960080da92d763bb0ada6d523a042e0aa317686d075102ddc31c9ac8871e119
+  m_RendererFeatureMap: adc0de57c6d2eee57fdadb97de3da487d69868cdfd8904a885e83469ead8efbb366eb5f91518dfd59960080da92d763b9218fd120833c199b0ada6d523a042e0aa317686d075102ddc31c9ac8871e119
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -207,10 +225,10 @@ MonoBehaviour:
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 1
+  m_ShadowTransparentReceive: 0
   m_RenderingMode: 0
   m_DepthPrimingMode: 0
-  m_CopyDepthMode: 0
+  m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
 --- !u!114 &1864896552536453596
@@ -239,11 +257,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
-  m_Name: FullScreenFeature
+  m_Name: Depth Copy
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    renderPassEvent: 500
+    renderPassEvent: 450
     textureToModify: {fileID: 8400000, guid: 4a12575791f9dd4408fcaf184d18d6b1, type: 2}
     material: {fileID: 2100000, guid: de27917f5a39d5b4f8f592c58a50ebed, type: 2}
 --- !u!114 &4284662299580981401
@@ -258,11 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6fe2114208fe3489d22e27a8c5bf08, type: 3}
   m_Name: Blur Paint Buffer 1
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 500
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
     material: {fileID: 2100000, guid: 3d1ef620e6aa5644195ebec496d71905, type: 2}
     strength:
       m_OverrideState: 1
-      m_Value: 2
+      m_Value: 6

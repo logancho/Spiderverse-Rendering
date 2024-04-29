@@ -48,8 +48,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 200.0
+            "x": 2.000013589859009,
+            "y": 197.3333282470703
         },
         "m_Blocks": [
             {
@@ -116,9 +116,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -298.6666564941406,
-            "y": 207.3333282470703,
-            "width": 147.33334350585938,
+            "x": -350.6666564941406,
+            "y": 196.6666717529297,
+            "width": 147.3333282470703,
             "height": 114.66667175292969
         }
     },
@@ -134,14 +134,14 @@
         "zbuffer",
         "zdepth"
     ],
-    "m_Precision": 0,
+    "m_Precision": 1,
     "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_DepthSamplingMode": 2
+    "m_DepthSamplingMode": 1
 }
 
 {
