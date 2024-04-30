@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1768469, g: 0.22137134, b: 0.3036612, a: 1}
+  m_IndirectSpecularColor: {r: 0.1836369, g: 0.22790226, b: 0.298126, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -216,7 +216,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ce0721afb107f4d46986193d71e6b20d, type: 2}
+  - {fileID: 2100000, guid: 53c1de6cad3bd87478080b7d5ccb0b1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -454,13 +454,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515747750}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.78627807, y: -0.2960445, z: 0.07540559, w: -0.53706473}
+  m_LocalRotation: {x: 0.6995042, y: -0.35814568, z: 0.6182515, w: -0.013808049}
   m_LocalPosition: {x: 140.90628, y: -141.05, z: 0}
   m_LocalScale: {x: 2.7678, y: 2.7678, z: 2.7678}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 117.226, y: -385.841, z: -777.199}
+  m_LocalEulerAnglesHint: {x: 154.942, y: -434.95502, z: -1045.113}
 --- !u!114 &515747753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,6 +519,7 @@ MonoBehaviour:
   depthBuffer: {fileID: 8400000, guid: 4a12575791f9dd4408fcaf184d18d6b1, type: 2}
   colorBuffer: {fileID: 8400000, guid: d259133bfe5a88c488173e75424a6332, type: 2}
   outputBufferTest: {fileID: 8400000, guid: 6921f911b3ba2f94eb7902e9e1899dc2, type: 2}
+  seenBuffer: {fileID: 0}
   compute: {fileID: 7200000, guid: be5912a5f569eaf44ab0a24da0615163, type: 3}
   mainCamera: {fileID: 1750986336}
 --- !u!4 &673354147
@@ -1314,7 +1315,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ce0721afb107f4d46986193d71e6b20d, type: 2}
+  - {fileID: 2100000, guid: 53c1de6cad3bd87478080b7d5ccb0b1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

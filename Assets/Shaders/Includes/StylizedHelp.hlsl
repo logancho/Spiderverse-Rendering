@@ -1,5 +1,19 @@
 SAMPLER(sampler_trilinear_repeat);
 
+float4 Ellipse(float2 UV, float Width, float Height)
+{
+    float2 repeatUV = float2(frac(UV.x), frac(UV.y));
+    float d = length((repeatUV * 2 - 1) / float2(Width, Height));
+    return saturate((1 - d) / fwidth(d));
+}
+
+void Ellipse_float(float2 UV, float Width, float Height, out float4 OUT)
+{
+    float2 repeatUV = float2(frac(UV.x), frac(UV.y));
+    float d = length((repeatUV * 2 - 1) / float2(Width, Height));
+    OUT = saturate((1 - d) / fwidth(d));
+}
+
 void TriplanarColor_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,
     float3 TR1, float3 TR2, float3 TR3,
     float3 Position, float3 Normal, float Tile, float Blend, float Diffuse, out float4 OUT)
@@ -25,8 +39,86 @@ void TriplanarColor_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,
     float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_x);
     float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_y);
     float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_z);
+    
+    //float4 Node_X = Ellipse()
+    //float4 Node_X = Ellipse(Node_UV_x, Radius, Radius);
     OUT = Node_X * Node_Blend.x + Node_Y * Node_Blend.y + Node_Z * Node_Blend.z;
 }
+
+void TriplanarDot_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,
+    float3 Position, float3 Normal, float Tile, float Blend, float Diffuse,
+    float Radius, out float4 OUT)
+{
+    float3 Node_UV = Position * Tile;
+    float b = fmod(Node_UV, 1.0);
+
+    float3 Node_Blend = pow(abs(Normal), Blend);
+    Node_Blend /= dot(Node_Blend, 1.0);
+    
+    //int tile_i = int(floor(Diffuse * 9));
+    //tile_i = 0;
+    
+    //float2 Node_UV_x = float2(Node_UV.z / 9.0 + tile_i / 9.0, Node_UV.y);
+    //float2 Node_UV_y = float2(Node_UV.x / 9.0 + tile_i / 9.0, Node_UV.z);
+    //float2 Node_UV_z = float2(Node_UV.x / 9.0 + tile_i / 9.0, Node_UV.y);
+    float2 Node_UV_x = float2(Node_UV.z, Node_UV.y);
+    float2 Node_UV_y = float2(Node_UV.x, Node_UV.z);
+    float2 Node_UV_z = float2(Node_UV.x, Node_UV.y);
+    
+    //All of the ones, above the 1/9 threshold, should modulo back to the 1/9 threshold ... I still want it to be tiled.
+    
+    //float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_x);
+    //float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_y);
+    //float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_z);
+    
+    //float4 Node_X = Ellipse()
+    float4 Node_X = Ellipse(Node_UV_x, Radius, Radius);
+    float4 Node_Y = Ellipse(Node_UV_y, Radius, Radius);
+    float4 Node_Z = Ellipse(Node_UV_z, Radius, Radius);
+    
+    OUT = Node_X * Node_Blend.x + Node_Y * Node_Blend.y + Node_Z * Node_Blend.z;
+}
+
+void PainterlyNormal_float(UnityTexture2D left_face, float3 normal, out float3 OUT)
+{
+    //OUT = normalize(float3(1, 1, 1));
+    float v = 1 / sqrt(3);
+    
+    if (normal.x < 0 && abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z))
+    {
+        //float2 UV = (float2(normal.b, normal.g) * v) +float2(0.5f, 0.5f);
+        float x = (normal.g / normal.r + 1.0f) / 2;
+        float y = (normal.b / normal.r + 1.0f) / 2;
+        float2 UV = float2(-y, -x);
+        
+        //s = (10 / 100 + 1) / 2 = 0.55
+        UV *= 1.0f;
+
+        //t = (-20 / 100 + 1) / 2 = 0.40
+        //float2 uv = (normal.y, normal.z) * 4.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(left_face, sampler_trilinear_repeat, UV);
+        //OUT = float3(0, 0, 0);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else
+    {
+        OUT = normal;
+    }
+    
+    
+}
+
+
+void TestUV_float(UnityTexture2D left_face, float2 UV, out float4 OUT)
+{
+    OUT = SAMPLE_TEXTURE2D(left_face, sampler_trilinear_repeat, UV);
+}
+
+//void PainterlyNormal_float(UnityTexture2D left_face, float3 Normal, out float3 OUT)
+//{
+//    OUT = float3(0);
+//}
 
 //9 version
 //void TriplanarColor_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,

@@ -71,6 +71,7 @@ void GetColor_float(out float4 OUT)
 #endif
 }
 
+
 //void FoliageNum_float(out int FoliageNum) {
 //    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
 //    int x = floor(_Properties[unity_InstanceID].seed1 + 0.0);

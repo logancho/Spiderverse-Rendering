@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
   m_Name: Step 2
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
   m_Name: Step PaintBuffer 1
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
@@ -276,11 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6fe2114208fe3489d22e27a8c5bf08, type: 3}
   m_Name: Blur Paint Buffer 1
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
     material: {fileID: 2100000, guid: 3d1ef620e6aa5644195ebec496d71905, type: 2}
     strength:
       m_OverrideState: 1
-      m_Value: 6
+      m_Value: 3
