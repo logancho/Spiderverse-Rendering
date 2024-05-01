@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
   m_Name: Step 2
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   m_Settings:
     AOMethod: 1
     Downsample: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
     Source: 0
     NormalSamples: 2
     Intensity: 2.21
-    DirectLightingStrength: 0.46
+    DirectLightingStrength: 0.237
     Radius: 0.25
     Samples: 0
     BlurQuality: 0

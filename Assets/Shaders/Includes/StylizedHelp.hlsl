@@ -1,3 +1,4 @@
+SAMPLER(sampler_linear_clamp);
 SAMPLER(sampler_trilinear_repeat);
 
 float4 Ellipse(float2 UV, float Width, float Height)
@@ -67,9 +68,9 @@ void TriplanarDot_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,
     
     //All of the ones, above the 1/9 threshold, should modulo back to the 1/9 threshold ... I still want it to be tiled.
     
-    //float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_x);
-    //float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_y);
-    //float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_z);
+    //float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_point_clamp, Node_UV_x);
+    //float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_point_clamp, Node_UV_y);
+    //float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_point_clamp, Node_UV_z);
     
     //float4 Node_X = Ellipse()
     float4 Node_X = Ellipse(Node_UV_x, Radius, Radius);
@@ -86,20 +87,14 @@ void PainterlyNormal_float(UnityTexture2D left_face, float3 normal, out float3 O
     
     if (normal.x < 0 && abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z))
     {
-        //float2 UV = (float2(normal.b, normal.g) * v) +float2(0.5f, 0.5f);
         float x = (normal.g / normal.r + 1.0f) / 2;
         float y = (normal.b / normal.r + 1.0f) / 2;
-        float2 UV = float2(-y, -x);
-        
-        //s = (10 / 100 + 1) / 2 = 0.55
-        UV *= 1.0f;
+        float2 UV = float2(1.0, 1.0) + float2(-y, -x);
 
-        //t = (-20 / 100 + 1) / 2 = 0.40
-        //float2 uv = (normal.y, normal.z) * 4.0f;
-        float4 rawNormal = SAMPLE_TEXTURE2D(left_face, sampler_trilinear_repeat, UV);
-        //OUT = float3(0, 0, 0);
+        UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(left_face, sampler_linear_clamp, UV);
         OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
-        OUT = 0.3 * normal + 0.7 * OUT;
+        OUT = 0.0 * normal + 0.7 * OUT;
     }
     else
     {
@@ -112,7 +107,7 @@ void PainterlyNormal_float(UnityTexture2D left_face, float3 normal, out float3 O
 
 void TestUV_float(UnityTexture2D left_face, float2 UV, out float4 OUT)
 {
-    OUT = SAMPLE_TEXTURE2D(left_face, sampler_trilinear_repeat, UV);
+    OUT = SAMPLE_TEXTURE2D(left_face, sampler_linear_clamp, UV);
 }
 
 //void PainterlyNormal_float(UnityTexture2D left_face, float3 Normal, out float3 OUT)

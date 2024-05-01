@@ -81,7 +81,11 @@ Shader "PostProcessing/Blur"
 				}
 
 				col /= gridSum;
-
+				//float3 original = tex2D(_MainTex, i.uv).rgb;
+				//if (length(col) < length(original))
+				//{
+				//	return float4(col, 1.0f);
+				//}
 				return float4(col, 1.0f);
 			}
             ENDHLSL
@@ -112,6 +116,13 @@ Shader "PostProcessing/Blur"
 				}
 
 				col /= gridSum;
+	
+				//float3 original = tex2D(_MainTex, i.uv).rgb;
+				//if (length(col) < length(original))
+				//{
+				//	return float4(col, 1.0f);
+				//}
+				//return float4(original, 1.0f);
 				return float4(col, 1.0f);
 			}
             ENDHLSL
