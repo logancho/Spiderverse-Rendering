@@ -182,9 +182,16 @@ void PaintMain (uint3 id : SV_DispatchThreadID)
     
     // Transform to view space
     float4 viewSpacePosition = mul(_invProjectionMatrix, clipSpacePosition);
-    //viewSpacePosition.z = sceneZ;
     viewSpacePosition /= viewSpacePosition.w;
-    //viewSpacePosition.z = -sceneZ;
+    //viewSpacePosition.xyz += 1.0f * normal;
+    
+    float3 disp = 0.04f * normal.xyz;
+    
+    viewSpacePosition.x += disp.x;
+    viewSpacePosition.y += disp.y;
+    viewSpacePosition.z += disp.z;
+    
+    
     // Transform to world space
     float4 worldSpacePosition = mul(_invViewMat, viewSpacePosition);
     //

@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d58b110cf3d104789c94a20b649fa2, type: 3}
   m_Name: Step PaintBuffer 1
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}

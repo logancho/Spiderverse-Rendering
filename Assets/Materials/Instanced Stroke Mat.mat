@@ -63,7 +63,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SHADOWS_SOFT_HIGH: 0
-    - _Scale: 0.73
+    - _Scale: 0.2
     - _Tile: 1
     m_Colors:
     - _Highlight: {r: 0.96855336, g: 0.9296311, b: 0.8619516, a: 0}
