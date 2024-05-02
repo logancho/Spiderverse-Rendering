@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8772341958684031192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6357722428987699949}
+  - component: {fileID: 4973363428776592560}
+  m_Layer: 0
+  m_Name: PaintManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6357722428987699949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772341958684031192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4973363428776592560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772341958684031192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e3ffd3a3b3ced49b01d29da7bcc64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 60e77f05ae07e4b49a76228ae9580378, type: 2}
+  paintBuffer: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
+  normalsBuffer: {fileID: 8400000, guid: f68433390152ff846b673e908a66de3f, type: 2}
+  depthBuffer: {fileID: 8400000, guid: 4a12575791f9dd4408fcaf184d18d6b1, type: 2}
+  colorBuffer: {fileID: 8400000, guid: d259133bfe5a88c488173e75424a6332, type: 2}
+  outputBufferTest: {fileID: 8400000, guid: 6921f911b3ba2f94eb7902e9e1899dc2, type: 2}
+  seenBuffer: {fileID: 8400000, guid: a48783a2b0d92a74b884405898d55d49, type: 2}
+  compute: {fileID: 7200000, guid: be5912a5f569eaf44ab0a24da0615163, type: 3}
+  mainCamera: {fileID: 0}

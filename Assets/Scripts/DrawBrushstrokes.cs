@@ -30,13 +30,15 @@ public class DrawBrushstrokes : MonoBehaviour
         public Matrix4x4 mat;
         public Vector2 UV;
         public Vector4 color;
+        public float scaleFactor; //[0,1]
 
         public static int Size()
         {
             return
                 sizeof(float) * 4 * 4 + // matrix;
                 sizeof(float) * 4 + // color vec4
-                sizeof(float) * 2; // vector2 for UV
+                sizeof(float) * 2 + // vector2 for UV
+                sizeof(float); //float for scaleFactor
         }
     }
 
@@ -76,6 +78,7 @@ public class DrawBrushstrokes : MonoBehaviour
         MeshProperties[] properties = new MeshProperties[population];
         Debug.Log(population);
 
+        
         for (int r = 0; r < paintBuffer.height / 10.0f; r++)
         {
             for (int c = 0; c < paintBuffer.width / 10.0f; c++)
@@ -96,6 +99,7 @@ public class DrawBrushstrokes : MonoBehaviour
                 //Debug.Log(idx);
                 //Debug.Log(props.UV);
                 //props.color = Color.Lerp(Color.red, Color.blue, Random.value);
+                props.scaleFactor = 1.0f;
                 if (idx < population)
                 {
                     properties[idx] = props;
@@ -145,11 +149,11 @@ public class DrawBrushstrokes : MonoBehaviour
         //}
 
         //mainCamera.projectionMatrix.inverse
-        compute.SetMatrix("_invViewMat", mainCamera.cameraToWorldMatrix); //game camera
-        compute.SetMatrix("_invProjectionMatrix", mainCamera.projectionMatrix.inverse);
+        compute.SetMatrix("_invViewMat", Camera.main.cameraToWorldMatrix); //game camera
+        compute.SetMatrix("_invProjectionMatrix", Camera.main.projectionMatrix.inverse);
 
-        compute.SetFloat("_CameraNearPlane", mainCamera.nearClipPlane);
-        compute.SetFloat("_CameraFarPlane", mainCamera.farClipPlane);
+        compute.SetFloat("_CameraNearPlane", Camera.main.nearClipPlane);
+        compute.SetFloat("_CameraFarPlane", Camera.main.farClipPlane);
         //Debug.Log(mainCamera.nearClipPlane);
         //Debug.Log(mainCamera.farClipPlane);
 

@@ -9,12 +9,9 @@ struct MeshProperties {
     float4x4 mat;
     float2 UV;
     float4 color;
+    float scaleFactor;
 };
 
-    //float4x4 inverseMat;
-    //float3 foliageNormal;
-    //float seed1;
-    //float seed2;
 
 #if defined(SHADER_API_GLCORE) || defined(SHADER_API_D3D11) || defined(SHADER_API_GLES3) || defined(SHADER_API_METAL) || defined(SHADER_API_VULKAN) || defined(SHADER_API_PSSL) || defined(SHADER_API_XBOXONE)
 uniform StructuredBuffer<MeshProperties> _Properties;
@@ -29,14 +26,6 @@ void setup()
 #ifdef unity_ObjectToWorld
 #undef unity_ObjectToWorld
 #endif
-
-//#ifdef unity_WorldToObject
-//#undef unity_WorldToObject
-//#endif
-    
-//#ifdef UNITY_MATRIX_V
-//#undef UNITY_MATRIX_V
-//#endif
     
 #ifdef unity_WorldToCamera
 #undef unity_WorldToCamera
@@ -47,20 +36,9 @@ void setup()
 #endif
     
 	unity_ObjectToWorld = _Properties[unity_InstanceID].mat;
-    //unity_WorldToObject = _Properties[unity_InstanceID].inverseMat;
-    //UNITY_MATRIX_V = _Properties[unity_InstanceID].mat;
-    //unity_WorldToCamera = _Properties[unity_InstanceID].mat;
-    //unity_CameraToWorld = _Properties[unity_InstanceID].mat;
 #endif
 }
 
-//void FoliageNormal_float(out float3 FoliageNormal) {
-//    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-//    FoliageNormal = _Properties[unity_InstanceID].foliageNormal;
-//    #else
-//    FoliageNormal = float3(0,1,0);
-//    #endif
-//}
 
 void GetColor_float(out float4 OUT)
 {
@@ -71,7 +49,14 @@ void GetColor_float(out float4 OUT)
 #endif
 }
 
-
+void GetScaleFactor_float(out float OUT)
+{
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    OUT = _Properties[unity_InstanceID].scaleFactor;
+#else
+    OUT = 1.0f;
+#endif
+}
 //void FoliageNum_float(out int FoliageNum) {
 //    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
 //    int x = floor(_Properties[unity_InstanceID].seed1 + 0.0);

@@ -1,6 +1,18 @@
 SAMPLER(sampler_linear_clamp);
 SAMPLER(sampler_trilinear_repeat);
 
+void ProperStep_float(float IN, float threshold, out float OUT)
+{
+    if (IN > threshold) {
+        OUT = 1.0f;
+    }
+    else
+    {
+        OUT = IN;
+    }
+}
+
+
 float4 Ellipse(float2 UV, float Width, float Height)
 {
     float2 repeatUV = float2(frac(UV.x), frac(UV.y));
@@ -13,6 +25,58 @@ void Ellipse_float(float2 UV, float Width, float Height, out float4 OUT)
     float2 repeatUV = float2(frac(UV.x), frac(UV.y));
     float d = length((repeatUV * 2 - 1) / float2(Width, Height));
     OUT = saturate((1 - d) / fwidth(d));
+}
+
+
+//void TriplanarTextureProper_float(UnityTexture2D Texture,
+//    float3 Position, float3 Normal, float Tile, float Blend, out float4 OUT)
+//{
+//    float3 Node_UV = Position * Tile;
+//    //float b = fmod(Node_UV, 1.0);
+
+//    float3 Node_Blend = pow(abs(Normal), Blend);
+//    Node_Blend /= dot(Node_Blend, 1.0);
+
+//    float2 Node_UV_x = float2(Node_UV.z, Node_UV.y);
+//    float2 Node_UV_y = float2(Node_UV.x, Node_UV.z);
+//    float2 Node_UV_z = float2(Node_UV.x, Node_UV.y);
+    
+//    //All of the ones, above the 1/9 threshold, should modulo back to the 1/9 threshold ... I still want it to be tiled.
+    
+//    float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_x);
+//    float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_y);
+//    float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_z);
+
+//    OUT = Node_X * Node_Blend.x + Node_Y * Node_Blend.y + Node_Z * Node_Blend.z;
+//}
+
+void TriplanarBruh_float(UnityTexture2D Texture, float3 Position, float3 Normal, float Tile, float Blend_bruh, out float4 OUT)
+{
+    float3 Node_UV = Position * Tile;
+    //float b = fmod(Node_UV, 1.0);
+
+    float3 Node_Blend_bruh = pow(abs(Normal), Blend_bruh);
+    Node_Blend_bruh /= dot(Node_Blend_bruh, 1.0);
+    
+    //int tile_i = int(floor(Diffuse * 9));
+    //tile_i = 0;
+    
+    //float2 Node_UV_x = float2(Node_UV.z / 9.0 + tile_i / 9.0, Node_UV.y);
+    //float2 Node_UV_y = float2(Node_UV.x / 9.0 + tile_i / 9.0, Node_UV.z);
+    //float2 Node_UV_z = float2(Node_UV.x / 9.0 + tile_i / 9.0, Node_UV.y);
+    float2 Node_UV_x = float2(Node_UV.z, Node_UV.y);
+    float2 Node_UV_y = float2(Node_UV.x, Node_UV.z);
+    float2 Node_UV_z = float2(Node_UV.x, Node_UV.y);
+    
+    //All of the ones, above the 1/9 threshold, should modulo back to the 1/9 threshold ... I still want it to be tiled.
+    
+    float4 Node_X = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_x);
+    float4 Node_Y = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_y);
+    float4 Node_Z = SAMPLE_TEXTURE2D(Texture, sampler_trilinear_repeat, Node_UV_z);
+    
+    //float4 Node_X = Ellipse()
+    //float4 Node_X = Ellipse(Node_UV_x, Radius, Radius);
+    OUT = Node_X * Node_Blend_bruh.x + Node_Y * Node_Blend_bruh.y + Node_Z * Node_Blend_bruh.z;
 }
 
 void TriplanarColor_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,

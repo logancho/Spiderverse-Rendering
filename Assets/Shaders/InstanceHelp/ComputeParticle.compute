@@ -6,6 +6,7 @@ struct MeshProperties
     float4x4 mat;
     float2 UV; //UV
     float4 color;
+    float scaleFactor;
 };
 
 RWStructuredBuffer<MeshProperties> _Properties;
@@ -210,11 +211,74 @@ void PaintMain (uint3 id : SV_DispatchThreadID)
         newMat[1][3] = -100;
     }
     
+    //scaleFactor
+    int dist_neighbor = 4;
+    float scaleFactor = 1.0f;
+    float dot_sum = 0.0f;
+    [unroll]
+    for (int k = 0; k < 4; k++)
+    {
+        float2 disp = dist_neighbor * float2(_directions[k * 2], _directions[k * 2 + 1]);
+        float2 neighbor = disp + UV;
+        neighbor.x = max(0, neighbor.x);
+        neighbor.x = min(1280, neighbor.x);
+        neighbor.y = max(0, neighbor.y);
+        neighbor.y = min(720, neighbor.y);
+        //disp = neighbor - UV;
+        //dot_sum += dot(normal.xyz, _NormalsBuffer[neighbor.xy].xyz);
+        if (_NormalsBuffer[neighbor.xy].a > 0)
+        {
+            dot_sum = 0.01;
+        }
+        else
+        {
+            dot_sum += length(normal.rgb - _NormalsBuffer[neighbor.xy].rgb);
+        }
+        
+
+    }
+    dot_sum /= 2.0;
     
+    //dot_sum = (dot_sum + 1) / 2.0;
+    //scaleFactor = 1.0f - dot_sum;
+    scaleFactor = pow(dot_sum, 2.0);
     //
     _Properties[id.x].mat = newMat;
     _Properties[id.x].color = _ColorBuffer[UV.xy];
+    //_Properties[id.x].scaleFactor = (scaleFactor);
+    //_Properties[id.x].scaleFactor = (scaleFactor);
 }
+
+/*
+    //scaleFactor
+    int dist_neighbor = 1;
+    
+    float scaleFactor = 1;
+    
+    float dot_sum = 0;
+    [unroll] for (int k = 0; k < 4; i++)
+    {
+        float2 disp = dist_neighbor * float2(_directions[k * 2], _directions[k * 2 + 1]);
+        float2 neighbor = disp + UV;
+        neighbor.x = max(0, neighbor.x);
+        neighbor.x = min(1280, neighbor.x);
+        neighbor.y = max(0, neighbor.y);
+        neighbor.y = min(720, neighbor.y);
+        //disp = neighbor - UV;
+        dot_sum += dot(normal.xyz, _NormalsBuffer[neighbor.xy].xyz);
+    }
+    dot_sum /= 4;
+    
+    dot_sum = (dot_sum + 1) / 2.0;
+    scaleFactor = 1.0f - dot_sum;
+    
+    //
+
+
+
+
+
+*/
 
 //float LinearDepth(float z)
 //{
