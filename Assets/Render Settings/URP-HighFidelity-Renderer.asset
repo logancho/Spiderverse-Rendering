@@ -33,7 +33,7 @@ MonoBehaviour:
   settings:
     renderPassEvent: 300
     textureToModify: {fileID: 8400000, guid: acbc72e55aa385740a925b6adf1137a7, type: 2}
-    material: {fileID: 2100000, guid: 26d49391a1602684bab1a20413781b79, type: 2}
+    material: {fileID: 2100000, guid: 99893a77e68460644bb072a3b950dd0f, type: 2}
 --- !u!114 &-6339790652264900394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,4 +324,4 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 3d1ef620e6aa5644195ebec496d71905, type: 2}
     strength:
       m_OverrideState: 1
-      m_Value: 6
+      m_Value: 5.69

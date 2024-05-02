@@ -77,7 +77,7 @@ Material:
     - _Blend: 40
     - _CastShadows: 0
     - _Cull: 2
-    - _DotTile: 5.16
+    - _DotTile: 6.55
     - _DstBlend: 0
     - _MAIN_LIGHT_CALCULATE_SHADOWS: 1
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0

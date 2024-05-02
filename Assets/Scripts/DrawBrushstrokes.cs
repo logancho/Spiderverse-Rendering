@@ -15,8 +15,9 @@ public class DrawBrushstrokes : MonoBehaviour
     public RenderTexture colorBuffer;
     public RenderTexture outputBufferTest;
     public RenderTexture seenBuffer;
+    public RenderTexture seedBuffer;
     public ComputeShader compute;
-    public Camera mainCamera;
+    //public Camera mainCamera;
     //public Transform pusher;
 
     private ComputeBuffer meshPropertiesBuffer;
@@ -30,7 +31,9 @@ public class DrawBrushstrokes : MonoBehaviour
         public Matrix4x4 mat;
         public Vector2 UV;
         public Vector4 color;
-        public float scaleFactor; //[0,1]
+        public float scaleFactor; //[0, ?]
+        public float seed; //[0, 1]
+        public float opacity;
 
         public static int Size()
         {
@@ -38,7 +41,9 @@ public class DrawBrushstrokes : MonoBehaviour
                 sizeof(float) * 4 * 4 + // matrix;
                 sizeof(float) * 4 + // color vec4
                 sizeof(float) * 2 + // vector2 for UV
-                sizeof(float); //float for scaleFactor
+                sizeof(float) + //float for scaleFactor
+                sizeof(float) + //float for seed
+                sizeof(float); //float for opacity
         }
     }
 
@@ -48,7 +53,7 @@ public class DrawBrushstrokes : MonoBehaviour
         this.mesh = mesh;
 
         
-        population = paintBuffer.width * paintBuffer.height / 100;
+        population = paintBuffer.width * paintBuffer.height / 25;
 
         outputBufferTest.enableRandomWrite = true;
         outputBufferTest.Create();
@@ -79,11 +84,11 @@ public class DrawBrushstrokes : MonoBehaviour
         Debug.Log(population);
 
         
-        for (int r = 0; r < paintBuffer.height / 10.0f; r++)
+        for (int r = 0; r < paintBuffer.height / 5.0f; r++)
         {
-            for (int c = 0; c < paintBuffer.width / 10.0f; c++)
+            for (int c = 0; c < paintBuffer.width / 5.0f; c++)
             {
-                int idx = (int)(r * (paintBuffer.width / 10.0f) + c);
+                int idx = (int)(r * (paintBuffer.width / 5.0f) + c);
                 //Debug.Log(idx);
                 MeshProperties props = new MeshProperties();
                 //Vector3 position = new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range));
@@ -93,9 +98,10 @@ public class DrawBrushstrokes : MonoBehaviour
                 Vector3 scale = Vector3.one;
 
                 props.mat = Matrix4x4.TRS(position, rotation, scale);
-                props.UV = new Vector2((float)c / (paintBuffer.width / 10.0f), (float)r / (paintBuffer.height / 10.0f));
+                props.UV = new Vector2((float)c / (paintBuffer.width / 5.0f), (float)r / (paintBuffer.height / 5.0f));
 
                 props.color = Vector4.one;
+                props.opacity = 1.0f;
                 //Debug.Log(idx);
                 //Debug.Log(props.UV);
                 //props.color = Color.Lerp(Color.red, Color.blue, Random.value);
@@ -136,6 +142,7 @@ public class DrawBrushstrokes : MonoBehaviour
         compute.SetTexture(kernel, "_ColorBuffer", colorBuffer);
         compute.SetTexture(kernel, "_Result", outputBufferTest);
         compute.SetTexture(kernel, "_SeenBuffer", seenBuffer);
+        compute.SetTexture(kernel, "_SeedBuffer", seedBuffer);
 
         //depthToWorldShader.SetMatrix("_InvViewMatrix", _camera.cameraToWorldMatrix);
         //depthToWorldShader.SetMatrix("_InvProjectionMatrix", _camera.projectionMatrix.inverse);

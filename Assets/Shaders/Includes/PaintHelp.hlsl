@@ -10,6 +10,8 @@ struct MeshProperties {
     float2 UV;
     float4 color;
     float scaleFactor;
+    float seed;
+    float opacity;
 };
 
 
@@ -56,6 +58,56 @@ void GetScaleFactor_float(out float OUT)
 #else
     OUT = 1.0f;
 #endif
+}
+
+void UnevenScale_float(float3 A, out float3 Out)
+{
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    //OUT = _Properties[unity_InstanceID].scaleFactor;
+    Out = A;
+#endif
+}
+
+void GetSeed_float(out float OUT)
+{
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    OUT = _Properties[unity_InstanceID].seed;
+#else
+    OUT = 1.0f;
+#endif
+}
+
+void GetOpacity_float(out float OUT)
+{
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    OUT = _Properties[unity_InstanceID].opacity;
+#else
+    OUT = 1.0f;
+#endif
+}
+SAMPLER(sampler_trilinear_repeat);
+
+void ChooseAlphaCard_float(UnityTexture2D Card1, UnityTexture2D Card2, UnityTexture2D Card3, 
+    float2 UV,
+    out float4 OUT)
+{
+#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
+    float seed = _Properties[unity_InstanceID].seed;
+#else
+    float seed = 1.0f;
+#endif
+    if (seed < 0.33)
+    {
+        OUT = SAMPLE_TEXTURE2D(Card1, sampler_trilinear_repeat, UV);
+    }
+    else if (seed < 0.66)
+    {
+        OUT = SAMPLE_TEXTURE2D(Card2, sampler_trilinear_repeat, UV);
+    }
+    else
+    {
+        OUT = SAMPLE_TEXTURE2D(Card3, sampler_trilinear_repeat, UV);
+    }
 }
 //void FoliageNum_float(out int FoliageNum) {
 //    #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED

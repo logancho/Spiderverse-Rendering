@@ -13,6 +13,19 @@ void ProperStep_float(float IN, float threshold, out float OUT)
 }
 
 
+//void ProperCull_float(float IN, float threshold, out float OUT)
+//{
+//    if (IN < threshold)
+//    {
+//        OUT = 0;
+//    }
+//    else
+//    {
+//        OUT = IN;
+//    }
+//}
+
+
 float4 Ellipse(float2 UV, float Width, float Height)
 {
     float2 repeatUV = float2(frac(UV.x), frac(UV.y));
