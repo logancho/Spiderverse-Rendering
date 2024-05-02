@@ -14,13 +14,14 @@ RWStructuredBuffer<MeshProperties> _Properties;
 // with cs.SetTexture
 Texture2D<float4> _PaintBuffer; //read only heightmap ! (paintBuffer)
 Texture2D<float4> _NormalsBuffer; //read only viewNormals map
-Texture2D<float4> _DepthBuffer;
+Texture2D<float> _DepthBuffer;
 Texture2D<float4> _ColorBuffer;
-
-
 RWTexture2D<float4> _SeenBuffer;
 RWTexture2D<float4> _Result;
 float4x4 _invViewMat;
+float4x4 _invProjectionMatrix;
+float _CameraNearPlane;
+float _CameraFarPlane;
 
 static const int _directions[8] = { -1, 0, 1, 0, 0, 1, 0, -1 };
 
@@ -69,14 +70,60 @@ float4x4 Rot3ToMat4(float3x3 rot)
     );
 }
 
+float LinearDepth(float z)
+{
+    //float near = _CameraNearPlane;
+    //float far = _CameraFarPlane;
+    //return (2.0 * near * far) / (far + near - z * (far - near));
+    
+    float near = _CameraNearPlane;
+    float far = _CameraFarPlane;
+    //return (2.0 * near * far) / (far + near - z * (far - near));
+    float x_i = 1.0f;
+    float y_i = 1.0f;
+    float z_i = 1.0f;
+    float w_i = 1.0f;
+    //float x, y, z, w = 1.0f;
+    ////#if UNITY_REVERSED_Z
+    ////x = -1 + far / near;
+    ////y = 1;
+    ////z = x / far;
+    ////w = 1 / far;
+    
+    ////#else
+    x_i = 1.0f - (far / near);
+    y_i = (far / near);
+    z_i = x_i / far;
+    w_i = y_i / far;
+    //#endif
+    
+    //x_i = -1.0f + (far / near);
+    //y_i = 1.0f;
+    //z_i = x_i / far;
+    //w_i = 1.0f / far;
+    
+    float4 _ZBufferParams = float4(x_i, y_i, z_i, w_i);
+    //float4 _ZBufferParams = float4(1, 1, 1, 1);
+    return 1.0f / (_ZBufferParams.z * z + _ZBufferParams.w);
+    //return 1.0;
+    
+//    float near = _CameraNearPlane;
+//    float far = _CameraFarPlane;
+//    //float z_ndc = z * 2.0 - 1.0; // Convert from [0, 1] to [-1, 1]
+//    float z_ndc = z;
+//    float z_eye = 2.0 * near * far / (far + near - z_ndc * (far - near)); // Convert from [-1, 1] to eye space
+//    return z_eye;
+}
+
+
+
 [numthreads(64,1,1)]
 void PaintMain (uint3 id : SV_DispatchThreadID)
 {
     float2 UV = _Properties[id.x].UV;
-    float2 UV_og = UV;
     UV.x *= 1280;
     UV.y *= 720;
-    //scene buffer is 192 x 108
+    //scene buffer is 96 x 54
     [unroll] for (int i = 0; i < 40; i++)
     {
         float v_cur = _PaintBuffer[UV.xy].r;
@@ -106,9 +153,94 @@ void PaintMain (uint3 id : SV_DispatchThreadID)
     {
         return;
     }
+
+    float4 height = _PaintBuffer[UV.xy];
     
+    
+    
+    //Rotation Logic//
+    float4 normal = _NormalsBuffer[UV.xy];
+    normal = normalize(normal); //0 to 1
+    float3 up = float3(0, 0, 1);
+    //normal.z *= -1;
+    float3x3 RM = NormalRotationMatrix(up.xyz, normal.xyz);
+    float4x4 newMat = Rot3ToMat4(RM);
+    
+    float4x4 cameraRotation = _invViewMat;
+    cameraRotation[0][3] = 0;
+    cameraRotation[1][3] = 0;
+    cameraRotation[2][3] = 0;
+    
+    newMat = mul(cameraRotation, newMat);
+    //Rotation Logic//
+    
+    //Depth Logic//
+    float sceneZ = 1.0f - _DepthBuffer[UV.xy].r;
+
+    float2 UV_01 = float2(UV.x / 1280, UV.y / 720);
+    float4 clipSpacePosition = float4(UV_01 * 2 - 1, sceneZ * 2.0 - 1.0, 1.0);
+    
+    // Transform to view space
+    float4 viewSpacePosition = mul(_invProjectionMatrix, clipSpacePosition);
+    //viewSpacePosition.z = sceneZ;
+    viewSpacePosition /= viewSpacePosition.w;
+    //viewSpacePosition.z = -sceneZ;
+    // Transform to world space
+    float4 worldSpacePosition = mul(_invViewMat, viewSpacePosition);
+    //
+    if (height.r > 0 && sceneZ != 0)
+    {
+        _SeenBuffer[Seen_UV.xy] = float4(1, 1, 1, 1);
+        float3 rawPos = worldSpacePosition.xyz;
+        
+        newMat[0][3] = rawPos.x;
+        newMat[1][3] = rawPos.y;
+        newMat[2][3] = rawPos.z;
+    }
+    else
+    {
+        newMat[0][3] = -100;
+        newMat[1][3] = -100;
+    }
+    
+    
+    //
+    _Properties[id.x].mat = newMat;
+    _Properties[id.x].color = _ColorBuffer[UV.xy];
+}
+
+//float LinearDepth(float z)
+//{
+//    float near = _CameraNearPlane;
+//    float far = _CameraFarPlane;
+//    //return (2.0 * near * far) / (far + near - z * (far - near));
+//    float x, y, z, w;
+//    //#if UNITY_REVERSED_Z
+//    //x = -1 + far / near;
+//    //y = 1;
+//    //z = x / far;
+//    //w = 1 / far;
+    
+//    //#else
+//    x = 1 - far / near;
+//    y = far / near;
+//    z = x / far;
+//    w = y / far;
+//    //#endif
+    
+//    float4 _ZBufferParams = float4(x, y, z, w);
+//    return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
+//}
+
+
+
+
+ /*
     //if (_SeenBuffer[UV.xy])
     //return;
+    
+    //float4x1 newWorldOrigin = _invViewMat * float4(0, 0, -1, 1);
+    float4 newOrigin = mul(_invViewMat, float4(0, 0, -1, 1));
   
     float4 height = _PaintBuffer[UV.xy];
     
@@ -126,43 +258,43 @@ void PaintMain (uint3 id : SV_DispatchThreadID)
     
     float breh = 0.01f;
     
-    if (height.r > 0.6f && sceneZ != 0)
+    if (height.r > 0 && sceneZ != 0)
     {
         _SeenBuffer[Seen_UV.xy] = float4(1, 1, 1, 1);
         _Result[UV.xy] = float4(1, 1, 1, 1);
-        newMat[0][3] = UV.x * breh; 
-        newMat[1][3] = UV.y * breh;
-        newMat[2][3] = (1.0f - pow(max((1.0f - sceneZ), 0.0f), 60.0f)) * 10.0f;
+        
+        float3 rawPos = float3(UV.x * breh, UV.y * breh, (1.0f - pow(max((1.0f - sceneZ), 0.0f), 60.0f)) * 10.0f);
+        //newMat[0][3] = UV.x * breh; 
+        //newMat[1][3] = UV.y * breh;
+        //newMat[2][3] = (1.0f - pow(max((1.0f - sceneZ), 0.0f), 60.0f)) * 10.0f;
+        
+        //rawPos += newOrigin.xyz;
+        
+        
+        // Convert UV and depth to NDC
+        float4 clipSpacePosition = float4(uv * 2 - 1, depth, 1.0);
+
+    // Transform to view space
+        float4 viewSpacePosition = mul(_InvProjectionMatrix, clipSpacePosition);
+        viewSpacePosition /= viewSpacePosition.w;
+
+    // Transform to world space
+        float4 worldSpacePosition = mul(_InvViewMatrix, viewSpacePosition);
+
+    // Write to output texture
+        _ResultTexture[id.xy] = worldSpacePosition;
+        
+        newMat[0][3] = rawPos.x;
+        newMat[1][3] = rawPos.y;
+        newMat[2][3] = rawPos.z;
     }
     else
     {
         newMat[0][3] = -100;
         newMat[1][3] = -100;
     }
-    
-    
-    //reconstruct the world space position!!!!!
-    //via depth texture and more ...
-    
-    
-    //float3 worldPos = viewPlane * sceneZ + _WorldSpaceCameraPos;
-    //worldPos = mul(unity_CameraToWorld, float4(worldPos, 1.0));
-    
-    
-    // In a transform matrix, the position (translation) vector is the last column.
-    //float3 position = float3(mat[0][3], mat[1][3], mat[2][3]);
-
-    _Properties[id.x].mat = newMat;
-    _Properties[id.x].color = _ColorBuffer[UV.xy];
-    //_Properties[id.x].color = _DepthBuffer[UV.xy];
-}
-
-
-
-
-
-
-
+*/
+    //
 
 
 

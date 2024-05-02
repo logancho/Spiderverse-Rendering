@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    renderPassEvent: 600
+    renderPassEvent: 450
     textureToCopyTo: {fileID: 8400000, guid: d259133bfe5a88c488173e75424a6332, type: 2}
 --- !u!114 &3247224869803667882
 MonoBehaviour:
@@ -283,4 +283,4 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 3d1ef620e6aa5644195ebec496d71905, type: 2}
     strength:
       m_OverrideState: 1
-      m_Value: 3
+      m_Value: 2

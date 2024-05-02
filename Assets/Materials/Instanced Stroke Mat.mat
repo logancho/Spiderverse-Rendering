@@ -39,7 +39,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaCard:
-        m_Texture: {fileID: 2800000, guid: be13cfd1f2ca22e409d7c4b1b0e28296, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6c6907995124c4440a4a0f6d175706be, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -63,7 +63,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SHADOWS_SOFT_HIGH: 0
-    - _Scale: 0.1
+    - _Scale: 0.73
     - _Tile: 1
     m_Colors:
     - _Highlight: {r: 0.96855336, g: 0.9296311, b: 0.8619516, a: 0}

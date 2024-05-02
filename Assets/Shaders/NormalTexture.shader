@@ -37,7 +37,8 @@ Shader "Hidden/Normals Texture"
             {
                 //return float4(normalize(i.viewNormal) * 0.5 + 0.5, 0);
                 //return float4(normalize(i.viewNormal) - 0.5, 0);
-    return float4(normalize(i.viewNormal), 0);
+                return float4(normalize(i.viewNormal), 0);
+    //return float4(normalize(i.viewNormal) *2.0 - 1.0, 0);
 }
             ENDCG
         }

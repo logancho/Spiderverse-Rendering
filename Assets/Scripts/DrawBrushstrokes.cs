@@ -132,6 +132,9 @@ public class DrawBrushstrokes : MonoBehaviour
         compute.SetTexture(kernel, "_ColorBuffer", colorBuffer);
         compute.SetTexture(kernel, "_Result", outputBufferTest);
         compute.SetTexture(kernel, "_SeenBuffer", seenBuffer);
+
+        //depthToWorldShader.SetMatrix("_InvViewMatrix", _camera.cameraToWorldMatrix);
+        //depthToWorldShader.SetMatrix("_InvProjectionMatrix", _camera.projectionMatrix.inverse);
         //compute.SetTextureFromGlobal(kernel, "_CameraDepthAttachment", "_CameraDepthAttachment");
         //compute.SetTexture(kernel, "_DepthTexture", Shader.GetGlobalTexture("_CameraDepthAttachment"));
 
@@ -141,7 +144,15 @@ public class DrawBrushstrokes : MonoBehaviour
         //    compute.SetTextureFromGlobal(kernel, "_DepthBuffer", "_CameraDepthAttachment");
         //}
 
+        //mainCamera.projectionMatrix.inverse
         compute.SetMatrix("_invViewMat", mainCamera.cameraToWorldMatrix); //game camera
+        compute.SetMatrix("_invProjectionMatrix", mainCamera.projectionMatrix.inverse);
+
+        compute.SetFloat("_CameraNearPlane", mainCamera.nearClipPlane);
+        compute.SetFloat("_CameraFarPlane", mainCamera.farClipPlane);
+        //Debug.Log(mainCamera.nearClipPlane);
+        //Debug.Log(mainCamera.farClipPlane);
+
         //Debug.Log(mainCamera.cameraToWorldMatrix);
         //_CameraDepthAttachment fs     1920x1080 Tex2D         None D32_SFloat_S8_UInt   _CameraDepthAttachment_1920x1080_Depth_MSAA8x
 
