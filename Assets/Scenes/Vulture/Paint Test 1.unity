@@ -520,8 +520,8 @@ MonoBehaviour:
   colorBuffer: {fileID: 8400000, guid: d259133bfe5a88c488173e75424a6332, type: 2}
   outputBufferTest: {fileID: 8400000, guid: 6921f911b3ba2f94eb7902e9e1899dc2, type: 2}
   seenBuffer: {fileID: 8400000, guid: a48783a2b0d92a74b884405898d55d49, type: 2}
+  seedBuffer: {fileID: 8400000, guid: 72a4d2079dc0c1549abfbc675ba51749, type: 2}
   compute: {fileID: 7200000, guid: be5912a5f569eaf44ab0a24da0615163, type: 3}
-  mainCamera: {fileID: 1750986336}
 --- !u!4 &673354147
 Transform:
   m_ObjectHideFlags: 0
