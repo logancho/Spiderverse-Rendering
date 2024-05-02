@@ -70,7 +70,7 @@ Material:
     - ADDITIONAL_LIGHT_CALCULATE_SHADOWS: 0
     - MAIN_LIGHT_CALCULATE_SHADOWS: 1
     - _ADDITIONAL_LIGHTS: 0
-    - _BrushScale: 0.07
+    - _BrushScale: 0.035
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
     - _QueueOffset: 0

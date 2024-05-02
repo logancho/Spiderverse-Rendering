@@ -482,6 +482,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sonic Model Export
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 44ce339c827b25f4ba631e06bb7a8a6f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1443583819320638466, guid: 44ce339c827b25f4ba631e06bb7a8a6f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -667,7 +672,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1b07809ed83def34f8a5fd30dcab3c30,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -693,7 +698,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &1391605647
 SphereCollider:
   m_ObjectHideFlags: 0

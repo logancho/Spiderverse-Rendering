@@ -1,5 +1,6 @@
 SAMPLER(sampler_linear_clamp);
 SAMPLER(sampler_trilinear_repeat);
+SAMPLER(sampler_trilinear_clamp);
 
 void ProperStep_float(float IN, float threshold, out float OUT)
 {
@@ -157,21 +158,90 @@ void TriplanarDot_float(UnityTexture2D Texture, UnityTexture2D DitherTexture,
     OUT = Node_X * Node_Blend.x + Node_Y * Node_Blend.y + Node_Z * Node_Blend.z;
 }
 
-void PainterlyNormal_float(UnityTexture2D left_face, float3 normal, out float3 OUT)
+static float epsilon = 0.001f;
+
+bool equality(float a, float b)
+{
+    return (abs(a - b) <= epsilon);
+}
+void PainterlyNormal_float(UnityTexture2D neg_x_face, UnityTexture2D pos_x_face, 
+                            UnityTexture2D pos_z_face, UnityTexture2D neg_z_face,
+                            UnityTexture2D pos_y_face, UnityTexture2D neg_y_face,
+float3 normal, out float3 OUT)
 {
     //OUT = normalize(float3(1, 1, 1));
     float v = 1 / sqrt(3);
     
-    if (normal.x < 0 && abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z))
+    if (normal.x < 0 && abs(normal.x) >= abs(normal.y) + epsilon && abs(normal.x) >= abs(normal.z) + epsilon)
     {
         float x = (normal.g / normal.r + 1.0f) / 2;
         float y = (normal.b / normal.r + 1.0f) / 2;
         float2 UV = float2(1.0, 1.0) + float2(-y, -x);
 
-        UV *= 1.0f;
-        float4 rawNormal = SAMPLE_TEXTURE2D(left_face, sampler_linear_clamp, UV);
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(neg_x_face, sampler_trilinear_clamp, UV);
         OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
-        OUT = 0.0 * normal + 0.7 * OUT;
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else if (normal.x > 0 && abs(normal.x) >= abs(normal.y) + epsilon && abs(normal.x) >= abs(normal.z) + epsilon)
+    {
+        float x = (normal.g / normal.r + 1.0f) / 2;
+        float y = (normal.b / normal.r + 1.0f) / 2;
+        //float2 UV = float2(1.0, 1.0) + float2(-x, -y);
+        float2 UV = float2(1.0f - y, x);
+
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(pos_x_face, sampler_trilinear_clamp, UV);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else if (normal.z > 0 && abs(normal.z) >= abs(normal.y) + epsilon && abs(normal.z) >= abs(normal.x) + epsilon)
+    {
+        float x = (normal.r / normal.b + 1.0f) / 2;
+        float y = (normal.g / normal.b + 1.0f) / 2;
+        //float2 UV = float2(1.0, 1.0) + float2(-y, -x);
+        float2 UV = float2(x, y);
+
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(pos_z_face, sampler_trilinear_clamp, UV);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else if (normal.z < 0 && abs(normal.z) >= abs(normal.y) + epsilon && abs(normal.z) >= abs(normal.x) + epsilon)
+    {
+        float x = (normal.r / normal.b + 1.0f) / 2;
+        float y = (normal.g / normal.b + 1.0f) / 2;
+        //float2 UV = float2(1.0, 1.0) + float2(-y, -x);
+        float2 UV = float2(1.0 - x, y);
+
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(neg_z_face, sampler_trilinear_clamp, UV);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else if (normal.y > 0 && abs(normal.y) >= abs(normal.x) + epsilon && abs(normal.y) >= abs(normal.z) + epsilon)
+    {
+        float x = (normal.r / normal.g + 1.0f) / 2;
+        float y = (normal.b / normal.g + 1.0f) / 2;
+        //float2 UV = float2(1.0, 1.0) + float2(-y, -x);
+        float2 UV = float2(x, 1.0 - y);
+
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(pos_y_face, sampler_trilinear_clamp, UV);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
+    }
+    else if (normal.y < 0 && abs(normal.y) >= abs(normal.x) + epsilon && abs(normal.y) >= abs(normal.z)+ epsilon)
+    {
+        float x = (normal.r / normal.g + 1.0f) / 2;
+        float y = (normal.b / normal.g + 1.0f) / 2;
+        //float2 UV = float2(1.0, 1.0) + float2(-y, -x);
+        float2 UV = float2(1.0 - x, 1.0 - y);
+
+        //UV *= 1.0f;
+        float4 rawNormal = SAMPLE_TEXTURE2D(neg_y_face, sampler_trilinear_clamp, UV);
+        OUT = normalize(rawNormal.rgb - float3(0.5, 0.5, 0.5));
+        OUT = 0.3 * normal + 0.7 * OUT;
     }
     else
     {

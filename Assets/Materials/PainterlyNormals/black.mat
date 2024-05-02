@@ -61,6 +61,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NegXFace:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: eaff85eb71314f0489ace9902a7d6c4a, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -69,8 +73,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PainterlyNormalCustomFunction_82a8709d50e843b38a4f82fc65f1bbe6_New3_3_Texture2D:
+        m_Texture: {fileID: 2800000, guid: aef7b0b575fa2274ea9fd4e2ef2b51ba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PainterlyNormalCustomFunction_82a8709d50e843b38a4f82fc65f1bbe6_New4_4_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PosXFace:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PosZFace:
+        m_Texture: {fileID: 2800000, guid: 5d334f5ae9f3f47499c2f3e22e169b0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:

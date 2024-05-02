@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18335077, g: 0.22896594, b: 0.3061613, a: 1}
+  m_IndirectSpecularColor: {r: 0.0009773796, g: 0.0005755364, b: 0.00010507593, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -221,13 +221,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214711389}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.6777747, z: 0, w: 0.7352696}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -85.34, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &415243340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PaintManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772341958684031192, guid: b9ba910b65974d641964891ec520b464,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -389,13 +394,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769691802}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.32301065, y: 0.23426166, z: 0.014600509, w: 0.9168274}
+  m_LocalRotation: {x: -0.913599, y: -0.062091976, z: -0.36955598, w: 0.15782888}
   m_LocalPosition: {x: 0, y: 1.05, z: 1.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 144.16501, y: 212.785, z: -1247.309}
+  m_LocalEulerAnglesHint: {x: 199.52899, y: 315.919, z: -719.806}
 --- !u!114 &769691805
 MonoBehaviour:
   m_ObjectHideFlags: 0

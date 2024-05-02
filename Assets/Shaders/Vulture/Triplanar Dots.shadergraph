@@ -1636,7 +1636,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "ce7ac1755b9646739ab81447001aa791",
     "m_Id": 0,
-    "m_DisplayName": "Blend",
+    "m_DisplayName": "TriDotBlend",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1668,10 +1668,10 @@
     "m_Guid": {
         "m_GuidSerialized": "b2e9d1ef-2b20-48fa-affe-7ad853ac8923"
     },
-    "m_Name": "Blend",
+    "m_Name": "TriDotBlend",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Blend",
-    "m_DefaultReferenceName": "_Blend",
+    "m_RefNameGeneratedByDisplayName": "TriDotBlend",
+    "m_DefaultReferenceName": "_TriDotBlend",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
